@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   alpha,
   AppBar,
@@ -70,7 +71,7 @@ const Navbar = () => {
         </div>
 
         <div className={classes.icons}>
-          <Search className={classes.searchButton}  />
+          <Search className={classes.searchButton} />
           <Badge badgeContent={4} color='secondary' className={classes.badge}>
             <Mail />
           </Badge>
