@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import { Notifications, Mail, Search } from '@material-ui/icons';
+import { Notifications, Mail, Search, Cancel } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -34,18 +34,32 @@ const useStyles = makeStyles((theme) => ({
     },
     borderRadius: theme.shape.borderRadius,
     width: '50%',
+    [theme.breakpoints.down('sm')]: {
+      display: (props) => (props.open ? 'flex' : 'none'),
+      width: '70%',
+    },
   },
   input: {
     color: 'white',
     marginLeft: theme.spacing(1),
   },
+  cancel: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
   searchButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: { display: 'none' },
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(1),
   },
   icons: {
-    display: 'flex',
     alignItems: 'center',
+    display: (props) => (props.open ? 'none' : 'flex'),
   },
   badge: {
     marginRight: theme.spacing(2),
@@ -54,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const classes = useStyles();
+  const classes = useStyles({ open });
   return (
     <AppBar>
       <Toolbar className={classes.toolbar}>
@@ -65,13 +79,19 @@ const Navbar = () => {
           Petr
         </Typography>
         <div className={classes.search}>
-          <Search />
+          <div className={classes.searchIcon}>
+            <Search />
+          </div>
 
           <InputBase placeholder='Search…' className={classes.input} />
+          <Cancel className={classes.cancel} onClick={() => setOpen(false)} />
         </div>
 
         <div className={classes.icons}>
-          <Search className={classes.searchButton} />
+          <Search
+            className={classes.searchButton}
+            onClick={() => setOpen(true)}
+          />
           <Badge badgeContent={4} color='secondary' className={classes.badge}>
             <Mail />
           </Badge>
